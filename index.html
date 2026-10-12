@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>下载中心</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0f1115; --card:#181b22; --line:#2a2f3a;
+          --fg:#e8eaed; --muted:#9aa4b2; --accent:#4f8cff; --ok:#2fbf71; --bad:#ff5c5c; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+         background:var(--bg); color:var(--fg); padding:24px;
+         font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif; }
+  .card { width:100%; max-width:520px; background:var(--card); border:1px solid var(--line);
+          border-radius:16px; padding:32px; }
+  h1 { margin:0 0 8px; font-size:22px; }
+  p.sub { margin:0 0 24px; color:var(--muted); font-size:14px; }
+  label { display:block; font-size:13px; color:var(--muted); margin-bottom:8px; }
+  input { width:100%; padding:12px 14px; background:#0d1017; color:var(--fg);
+          border:1px solid var(--line); border-radius:10px; font-size:16px;
+          font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+          letter-spacing:.08em; text-transform:uppercase; }
+  input:focus { outline:none; border-color:var(--accent); }
+  button { width:100%; margin-top:16px; padding:13px; background:var(--accent); color:#fff;
+           border:0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.55; cursor:default; }
+  .msg { margin-top:16px; padding:14px; border-radius:10px; font-size:14px; display:none; }
+  .msg.show { display:block; }
+  .msg.ok { background:rgba(47,191,113,.12); border:1px solid rgba(47,191,113,.4); }
+  .msg.bad { background:rgba(255,92,92,.1); border:1px solid rgba(255,92,92,.4); }
+  a.dl { display:block; margin-top:12px; padding:14px; text-align:center; background:var(--ok);
+         color:#fff; border-radius:10px; text-decoration:none; font-weight:600; }
+  .hint { color:var(--muted); font-size:12px; margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>下载中心</h1>
+  <p class="sub">输入你购买时获得的兑换码，获取下载链接。</p>
+  <form id="f">
+    <label for="code">兑换码</label>
+    <input id="code" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off"
+           spellcheck="false" maxlength="20" required>
+    <div class="hint">连字符可省略，字母不区分大小写。</div>
+    <button id="b" type="submit">获取下载链接</button>
+  </form>
+  <div id="m" class="msg"></div>
+</div>
+<script type="application/json" id="data">[{"s":"tuDHSyYQRrQYiylXB49Bng","i":"GiAxyIBAuNsOYjPg","c":"m_-v1dIlil5u2LvGFo88n4NGGq2pG8mtCIeubMOCsZg72pnJFHMBDe6tUhVEW_WQXZrVw-ypn1wAz0nZ8kGNoQ"},{"s":"5-ozNFFe5LS3GOqGWWvo-A","i":"123lsaxAJvJAJAan","c":"Oh1Pg5FhBb4vZMQNOVdyA1OMwCv-0p2HT33tlncWzWX0-A3_0yQ2p7Km_0aUi6uccha1K417G1Ay6yS_QZmwgg"},{"s":"yTit1b9MkbwFdGxLzYvRQg","i":"eawQXEnYfG_mbGzN","c":"aGBc1toU66MbYbycVynrwn_YOtPVzv8XUaweC0KVTY0xs_jR4HTQUcDEwYcyRX_gBBRNR-KL7-eiYwX59JUmfw"},{"s":"h0143qb-qxtbb1Jzqf8ccg","i":"EUE_ByJz9KJ5Yc5q","c":"Y2HmvFbbL17XyVcyFXZN5LHsN4d0oG2otdOwe9Ox3OLWULHSIa8jhhB3-ksMhx985Q54UOzJNq_rsLoECeyR4g"},{"s":"oQCmcpfc7GAPJXidEPxJNw","i":"vUbnOudtPC2fTlWS","c":"OCiNJZJ70UZzot-g7j5pjCQwnS1VZ2-1_s2e_6kIyvZQfXywlro9UNx-nK3TDX-pLewOE_kFcwBilFZq43X8NA"},{"s":"LrtKBTxPs0qnlC0qwBdgjw","i":"F7-8FHZDYKETAkW2","c":"8-LwkUJsAjvYf0F-Wwm3HLxGL4NisBBC9NN_Vm3IBnQ94vuHADULVkCAnCngdz-D5rROx8ljjYQKdtdxuLw9ow"},{"s":"wdfXFHk5MLusLCe0tAQGOg","i":"1zmcJkfijYldvREu","c":"jpZ7U5sqcIjacwlDfGeA1jhMUzUgBqqcQEz-IHzOqBvKN0tC3kViNSSVVi70GxiLvB69mNGbH-UsaJjYKuaZqA"},{"s":"6smu-u5BNrXp3vxZRL4l7A","i":"CkW_s8ICv7emFzdU","c":"a1k3UF8Lm7t5ItuJNUHjivL9gPVe_uiy53ecrfXzqcqHnbjCll6L1GvFInyWbUQb7CwI0r80bipneg1wqX1fUA"},{"s":"PySnbcS2_Zh7Ob8NEMdDqw","i":"jO1iHzX2bB7gCVJk","c":"ORxvOGfiryhxJHMqpDOzMlF43ogq_SwuDrctNmQlnRmPefNN9dtWGlmhIBLAwdItC6v0uHhxdjbCPik5eMt1rQ"},{"s":"6eJKN1ztNPxoyHkChMEMMw","i":"6Of4PPRTNhUALxdt","c":"8HRdaEZwS6b7Vf1GUEMbRVhFkKGT9DDDsP5BmyTP5VJ5vPW30Vm6u5VI7HC22jYuKMUq-jev4EwE-k12BgVAtw"},{"s":"2bDZImj1zegpCdHwJEfNpQ","i":"p87vOsnadOPcBEHx","c":"KhA_abitRgCslmVpZpIissopVepxA-0jAP_sE_BmQNdrX1zFt7DEaBdOLKJ2pYVqFqNcbRMrgALtz-E85M0qAA"},{"s":"r5d7PLMGRAkTJgbCJL9jSw","i":"ci-0T6uO61goDZiH","c":"zUROJUNymo_iET3ULnDQNQVpQBvSpL_xA21Q6mp84vjEwrCEzVeXOAh0dACxg3KX-PeBw_QKl6TWPmnXjZuVbQ"},{"s":"pgjwg6rkM8enLsChd6WLJg","i":"GSfI1Dpmaobi9fOI","c":"4RmFeMM_BQ98MPOELlzaI9UqxXX_ET_0K7D1SUC-laq_3ECcK6UtMPeA5lG5awQBBf_95A0KbqXSJLQsCkg1qA"},{"s":"R9QpwTqpkCCvwmPPaBfsyg","i":"tv4hzUc3mM7Zug_k","c":"tAtVrv_FM9cTDQWpYPhLLXnOJ7Gh93Bu6zwFBoYuWqXEm8EqwCDlGuwlJY86QG6yADbOUJMe5UeXW592mUN6Gw"},{"s":"pe5Q-47R7HcD_BmooaklMw","i":"DyjP-B8Ba1tmRiJU","c":"CGH6LaZAsWtcHVQQE0QWDgUZkcDiZird-GqlNbFeIAU30kGzNPO221vDXbrfYh0dZZdmR04V0vHmU6Opd7nuUQ"},{"s":"MSyrpn0ycJWm_rhpAkrjKA","i":"QTZajFVnZxyhgCWY","c":"2zhp7_OPGff7nFnbhWpT-8po6ayNJCsj1ST58J42F6XP_VSq39Ohx_fdTTeuAJm_pAyEr5UT5deMND9RDvnNFA"},{"s":"DN47uNnK7HjxOxAu7lkdMw","i":"OdqEByiGrEWTZpzW","c":"eMRjw74NMAqlqzsqTRY6iDQUZgIXkDFicKLnn6Hi6g43vVOrZlUCxf7hCGpcmdjVFb5SbbfbmepEukRfY_PP4g"},{"s":"cjgtps-o3P9E8JxGbjnkRA","i":"YxPKn5JgVhZrNIte","c":"rxQQTRBo9LuqF-uUBuaMFd5WAHjb6vcKjUH43w84Xev_cpLgBNDU_1IKy9W4prhurqz-lUjs9kdxIJoouEfwEg"},{"s":"DWifO945Cf_-m8QR9HVG5w","i":"dEX9WjrKp0XJ5s21","c":"AiPX95iDSqIJ5VAhoJ_U84nJZ5rWze00xnJ-oLHUaDeByazO2ce1CScRCt7PAyw1dbBHKNDRidIwfxudspgFmg"},{"s":"jFbHua6wGkxNF2DL8iQL-g","i":"66F8XEKk_kgv-rNN","c":"JFCo8Vom1Q_iiLuTkXZyUDAHYpXRyfjAD3fdl3BzPb8xGplaJoMO9x3bHM6QxaOWj6kusjCbonHkd4KtRUgs4A"},{"s":"xsa2vNRHWVDq8G8ujN8ltw","i":"YrvAXdXnbZ-g5-hE","c":"V_kmT5srJQrqXyuhSGkiRtB1RK0Ic7DXpXSQ-AJS5xjASkl-mGT75CMd--JI_KvMXRZ0dSDHqsWudH5n5ZCBEg"},{"s":"N3gZsqHVRWlZtUJT2TMW7Q","i":"Mu4fqy3tf34Ao59c","c":"7TsIP77buXIRRZiMypQqDuU7df4sxbKrTFBkpxdwiOCVrmahPVLphNxLy6hVz-ciOkQZjOHwq7nvBAsVSsO5Ww"},{"s":"CayHqa02A0OEAnGz9rBQ7Q","i":"h1XTK4aGxT7mbLZz","c":"Sra1CpUxeCLOt1Ak1fWgpIk8m9qso3mb2WEb8VEqrwQK26m7plCbFIwO5_mgAYSrfXGN8qtpnG3pk_LokuCdhg"},{"s":"hwtFxnIWPaFUUeWw9uP1Lw","i":"UvcFDFgq3gu7mwRd","c":"Ssy0CY4pVMLZKmxdpW9fNuY22XP0b-kgyNXeFLrUzjDhIvY-ELGraUFqyjYpM-PJLm4Od80sc2oCkcsCaOt9Qw"},{"s":"MLyQGoAW8Otu_YQ31RoRwA","i":"LE_E-y0PwhfNH32a","c":"byX25hb39iubacGgmo8-BckrXw9Ed2kk1-UMRuviAQKFYV0Frz7piXcEYCse8y8UnjPe1PTfa99a1d_lUAl0yg"},{"s":"8skUYkI87pONOpOwobAPrA","i":"wlDp48DNW-pntTy6","c":"yl7zLZkmZHYX168yN6Xf3T40dzkkYDGmk2beEaXG7-1f9PG6i-03c4K2KqHkBPym9MKVs-rxHp2YaAAoy7MzXg"},{"s":"gghSAZVB2Zt1TMEnGXDQEQ","i":"ImlISGMHaRBpJrNw","c":"flaNwYP9ldAZre-4KRafIBfcEKNbHjEYqQLqdZFvXy-x2mMuJIiObHH-gECITuE_6jvfKhciwGAB5rHQbbjAuA"},{"s":"pAAL0xURZGCKCVRfop91jw","i":"KKgu12QoCv2c2nfM","c":"QmuBQ5kaNAZx9LoPyhVetUYbWSQPlzoKNgwkuRh5bUTKZDQr59qJWrHFelBMjn8-VcNkIhXuuPeIvBCaDaXYPA"},{"s":"0KmPnxIixp-pQWBbxT4ZtA","i":"npG38d103sLK_9Gd","c":"53zODqb954zvwwd0mFFPWZ-KEd1mJDi4mZ7imGOn-fSRZ5uCk26dlkTGTV9lN9HRo-FgqgzezhCULPFkS1M3Zw"},{"s":"I5vqR7ZrtNTHsrQJ9zK7DA","i":"noBLMqefP19W9dg4","c":"SuJJ5IizD8xm2j3ThBDVpcecpLvXMg8Cx1Vef2opWwTbuzx_2OvF_qaGyAwvNknc2E1Z7PggpG8Edu1hisbujg"},{"s":"gTbTdleJwwnyDwnHqg1DDA","i":"3Te7KjnsuwqXiL6F","c":"aplAg4hskbTKCimce5IAkkXMW28FHk0VnRUNbGN8eotsRUaCEoK7bvvDnMpIiz75HVeXyfRJB1TTD1bCPaFCJw"},{"s":"yJD2hkFz4gT7y2zXHuc6Ig","i":"NHp4c5ADWM6JWBYD","c":"_sfeWJPinlg7Hmv6lRhKnibXJQn3uAbc5bjbYFT7gKBxyjlssPsboBXW-GUIysGcP1B96qMFLMFyrqVm6d63Cw"},{"s":"5GqCbLm3vMgY-8RwtVdwJQ","i":"MYMdZX6ngcMjGYqU","c":"L-EP2xEcJF4MqlxQD0xUhzZcYqTQ2YZGZ1PONEBR808TgKGmsMMCmLhq3eR5g9TLjcFXTqdtzkSRrc8c2acB4g"},{"s":"bExT5AAdXLIexoXAguDLlA","i":"_3KAydePHsK10Tuq","c":"mwjCy3kr53wPEsJywy0Jq1paXeRFQCb4GjEsOYuYcUn6ta6pFEnsQwWfsQpyq6kU-m8HnRR1eldDk-B80tr1IA"},{"s":"v67f-6fYZYcmpID-kezB7A","i":"CEayQ2Qzz3ipdRa7","c":"8l-SFCtKrnFbBXeOpbLI7VKuOtPJX9CHpSOgkZ_grZV86hWz8BqYTHxIl8oaUCw3YgA3Q8o4GO-uk5FuhOCh5g"},{"s":"6aoXwtw1UONCzmo1d6KPHA","i":"NRhd4GSCa2Xc9Os_","c":"PQpRbVlAmuyrev4EdvcfZm8mhNR-vX7mMJxdtizKXFUa4mGUvjxyEnheMB3xI47IEQnZfRWZYCOjTbZrvg_pFg"},{"s":"qse1hcDUvujI3TxkjETaZA","i":"l5OduL3aNT9eqJqT","c":"Y0uAHYV44Sthowsep4SRLLOVxsS-6rp6qwubnTCrkGHGhg9YaAjJ9_4cdQrh7qyB5hGw1OExQ6OOWT3A8W0jpQ"},{"s":"1PRXnMA7Zr689oiyV3nRcQ","i":"3-P6OXR3mib4o8Nm","c":"Bu79VOokJ9cuN5xl_x_-VGl_NLQytkdFbhCCpSazDlnUSa-2vP4_w6lsvWOdwWbQX3Ss0lsUG1pNOrUzgQ6kCw"},{"s":"G4K4kf-0f0ZZys7JBk4eNA","i":"jybuvPNtkzd5oXLD","c":"ueaK5n9CHl1zrzBpAdLvTknLElBdgTVp2noeiWnBm4ugWqGQDyDZHk3YZ7O1p6ZL3ZsKCTRjojGMDQzryyWHKA"},{"s":"y0uk_kLIyu8-hsAsw6SdwQ","i":"SoeOxTIML_H67kqv","c":"rRHCjNFIEQq8fDf6wj-uEEcRapJTSCcOffRstFiezfA9ayPt_9whf0cOIaP2YwFtYBl1BaxYWWL4YK0BIGgGXA"},{"s":"Ijlh2dByTvgB3lPuHatymg","i":"aajpnifY4NFlkgll","c":"GzWIMN2js7xZbhqwVb4snyVDqDeNLRFg5Wwvz9X7xnbgsUXaBau0MgDHJj8Arf72RiGt-LW90OypVQQNuHeQSg"},{"s":"cgZ5Q_JBHtTBZwo9Ev2Tjw","i":"SizCNEwh0aZgd3IS","c":"NIpHDbBVfQ1-nh44PVOHtS5XRIEfBlW7wC3qsKwqGPmfIZzbeP0V-xhzng1R4ryMEESi45o73VQ7NleHOhFYtg"},{"s":"sVYbYJjlcAa6l5zJMuQPEw","i":"yW3FR8P0HLpPQGIt","c":"Fn7zv512rWvp08Ca9PcQJFaS9-RaIrgAE-tDu7AK8OlxeJTedXIkHdNGYEJFemzH35v-44VL_qf-7EiEo_qkXQ"},{"s":"vZbi5cE9lHnmW-y3DffSxA","i":"39BV29WmoOsF7C_9","c":"5jUINC7fPEzPLOZ8G4RRU_On8KNHozip0RxjMbMsOp7ZTyGYYwZOinDyO35rZO-EDnz6j69lkd_TF4PSttSL_Q"},{"s":"Vn_R3kr5lwuQOZOe4OjbSg","i":"4o-LqkI1fw4p0vUP","c":"23-7KXJJXpSbUSuQK5BDdWe3uUnZ1UHhgWXxF73dLpqHCXIBXOEjAcBRTecWkPirOHAoav55zLQTsigxfqPgyA"},{"s":"wPZLPCg1BqZDH00tJIFuNA","i":"P_Xj_XxJUSNeXEDK","c":"PtiuJqKjt_iHqy-Y-smRSaEcM8DhvHHMHsVKz0dUxzfunGxYT1rLwZpmH-HO42GSTuZOiHNiK6sdUy7ibL0HMw"},{"s":"0RpXS_sf8U_JgAUYrNxjZA","i":"5YY3gV2QPnjZwRtX","c":"jzIfhRn0P3SJvVMcrdUwraW6cnqpFH2qiz4TrEcJ9FxezxJ-dPDIZ84H9frfmosfOabNzG989q8EjN1rVzqEjQ"},{"s":"ODm0GxJoEbu3hRyt3_NKJw","i":"8C7TvmxkzAJ-9pW-","c":"6oxduxTatpwd5jDkF4-Jfz2ArJ_44TJ4PT6SAncGmxGzNhLDdd1rrai9DRYYGp0n5o4DCBfU6n9zfuiHVDIIHg"},{"s":"tDz7oWf1C9q-30vIRuukbw","i":"bL6AZmPKQpGtrEPb","c":"aI3gfzgI1eqbSQzIAChoiW07STMFUFsB-7OFX34MygKMA-JUXGJpw9L5PpbP6LgkWwka9bezJN53EveFFVymuQ"},{"s":"MqjaKonNCtbcCaRruen_GQ","i":"amPBd4Y4Z3atq5pK","c":"GIcxScAJjNb0Vjr1QpbKj78XkyU_mwU82lF5x2dt4Ae1qOUelRzoC1OLPbhRkLvDxe0qGuCj1vgvzwFqaT3nrA"},{"s":"iSq7DDS-xwQLHlZeqS_16Q","i":"fZHuybDXNB2FsE3k","c":"h9F7kqqwCZd-ATSCrjHxAFnhx2hR2-rz0TBel0RQWGhhsgZWx0ezsk-y-QJLqmhTnnpIIr84Pc6-waFcC1PkVg"},{"s":"SuveimTrxruCJ0WPl_jHhQ","i":"Nf6_XPVyTfa5fgzS","c":"W-xmKriWe3vcuOuUfaz1brzw_mSTw2fb7rB-c3DuDBOK8bj6dz7KCXuNVa7cBaz0jh0RLEWyxs7ChouPOSCwXA"},{"s":"hQe5FMdJsWrpu0boPP2oLw","i":"j27Uz3U1bPNIQF4l","c":"9B4VsFoRutq42gcpBszvw2auMOnYCODnRCwS45Hv86uXCqj10minoMQjlwjFpvCzGIfbbCaJEnVBRxf9HtUzKA"},{"s":"bICafYB5pzd0bU4lrQwNPg","i":"_Dch3k-Vq_LSjHNj","c":"Oe5Q05unWIZfGup6NIQ9gz_ltmSTwLGfHYxVNrDBGI8IsINQLxXV_xXDB2UER8MMPHOzGxMVSvL6L4WKpYv7Lw"},{"s":"Co8zUfEk1_se2jZ8L_3xmw","i":"Xdm_g4QFXw3qUYbR","c":"5vPmJOCxeIvOIdxcMj3zbKUkz7G6VFjBgKSkQ0eE_lOW-4NoPvTqxx6ZkHSnScvOrrodQilDOtPo56vpZqun3Q"},{"s":"kn8V3mi024T9t5SK7MPNpw","i":"uyg5vqqW8sc1XTdH","c":"auXX1rYql8nW6tllOGUy3O7Xdkpopm1TaOBHx82Anr2GPi6U3qbJ_MVe_EIZT6rs-pyOXRMOvTfZb_ZMaTDADg"},{"s":"4z10pyJS4NGJ_BgGLYFJjA","i":"jZbgpIXiuCdVtW-L","c":"_Z8JxrdeWWbPJ0PjyFH5VG2QDybRXOhi_MjszQSG6r_WlUVY2YWnRLSYGXJuZ5ySoI8YZJFV7GJhqsk1-l_0dg"},{"s":"qBoirYrh9E1XtrbQC9CBuw","i":"CyO2bfZkZGrZoKiZ","c":"ZDpymb0o4o-qPm9odF4bYgH6bxhzWcMX9uuh-fUfuME5tUom-16gryNxJAHlVuAV201bmea3mUrW1-9ZO4k_xQ"},{"s":"fcRWRQgQoab24JfyQIEV3g","i":"Xy2b6-Cgl6pL7Jcb","c":"IT2MOKBdF5oSxLEmhLYl2hTMPQ6eCHe-xgsS1r6rzI5yxlA7p6MQdo5QwDv1H-W0UfI3frH_cfTyXfbUJUX2wQ"},{"s":"QOuzTqI9rjqW5V3lW3a3FQ","i":"c8IsFyAnDmdSlthL","c":"QveLmw74FbFLlvystgOgLIjSLjthoP8PRqSxz47K8kiBoQNwnmaLL0QQYEKqdRwsCICsxeUqbP4aquCc96WX1A"},{"s":"QORatQLSPBG82gKFNwEpzg","i":"xiP7rQm-u3Vavcd6","c":"_puc2_xnjuoFymBaT2P72fD9523pT6R0losQFyh28_AGAG2cMmONwapybvlPtG51DKYMlE7UZdSWaAcfFkL1BA"},{"s":"9o9GK7QmVRlu1JgwlGlP8A","i":"V9O45Ic8Q4lnBQxl","c":"LL0NgrHXDYPx8SStgd0L6rezFcEbgMifu8pgkoRVKfA7pFS0J7sgs1ck6xzvys-dw6JjAzB5QKLE_HWvRUKH4A"},{"s":"RMdmjHqTuJj-a4-IPV-lNQ","i":"PxiuBsmHvzwJ7pGC","c":"it3IxwrVoPcoN7CubuWFUqu1M9CDDq6UsbE_D3b6h6qDZVIbTlpPrAHMlnUk_-onnqD2B8dpcdrBAq3SKMlU_g"},{"s":"1qz0RQ5hUjtxyKueOeZh3Q","i":"s2nOikOMfdLE-_lS","c":"PXMLHQF21Q6qWpjY9Zr5ujGyPGhXnH-q_19BRP-BqXbs8XY3gC1LA7CHL8SaPSKlE9h4vqrHDOWDp6mGr_itJA"},{"s":"Zy15Bech_V0q1JLXn1DPAw","i":"s_djyTL10-bqFsUh","c":"0bbeZbCpWitGCDN2qnLeUQrXXCVZxDFjOVFYTaBRH93fb7d_PtrwZYhBlb6tzJwQpeEdp_JGvCEFoLyRgRj0Hw"},{"s":"r3QQFu3gLDN4grm6GLaTsQ","i":"AE2Orn1I7tCil_SU","c":"YSBEJbDF4F9wdwzjUT3stUZFJXGsGCgvwNIjb3vCpv66Cf_V51luM2b_WHtRPJoATu8et8nlT2F4HhLai2ol4Q"},{"s":"3lT72zuLp5pJPQamvS7Y2Q","i":"liZo00gKRLaCA5Lj","c":"Ia5IM9mv95PDTyjBpyKHzAArvxClEcMlKn2SIuRJY2eCXt4WisQAUywoIe2Q-TjsjAy65rC68_j2P-y1TK3BgQ"},{"s":"PR3xN5sFkNMsPD5VbtEfrg","i":"QM_J3nxckDtysmMM","c":"_9U26MBfr_7tGUdZexnUf8nPiGctEiLjKD2R3er4jPOFLJWo5fvDGDSqoyYRlU-FZ-XSO7q5M5c4G3HhXxEH0Q"},{"s":"m55Km7f8TPbeKX4sFfniBw","i":"kRVeCxj8iL7GF-xX","c":"Lrj0gybX3Fs6mOrEilWzVG_gW1dYQBeyGgwEPmTcgGFBD_RMbhFPf4wlcjhM1CQb_Qzyzo0X9K1ttnM3qwmPvg"},{"s":"QBqk56G13Dq1qFgLQvCuCA","i":"DVhYVtVOwK4Q3h-B","c":"FduZphm0IvNHMIHHp4b7yrK16p_uHJfoiN5PZAR9DIgmEJgBcovbPdKgwZes_XQlS9svdKx5VLbNRiRKnmb8bw"},{"s":"8-zSH_-MnOR5mkjifaQMMQ","i":"Ca8S_qPs4oCkbuer","c":"b_qcMzhzd8PH1Y4FCdE9PWSwmeN5ruaFMBozLJWfOlKyDDN3s-EJns3_Etu1QmFLeiz8VWjuPjshOd5gBINKsQ"},{"s":"DZZLI1qKPO5h0MF25neXqw","i":"WqjgHMJ3LF3o2bF3","c":"h-N48eyTyiMKlpDC31iqi5hmYBYVGb7kuhTDDI_hmKvBcjuXgzZOlTVvZ18vpuyKAraBj0aCsiLFoiK_uHui3w"},{"s":"mBMyzi__be-CtxxOQtQXvw","i":"D6lo870WAWQX39Ax","c":"UnjMIXJLYvAdE3PDx1fRcgRtnbDwwQxta-kbWvjFba3vml0r6jqo8_fcyIv16XvPZAt313DG5NDWafeQ3iYfRg"},{"s":"E1ujTsWj3cbguQemnbDq0g","i":"krxQ5hP2sFt-xIl8","c":"M5Ju3U0lqaEvZD9sa6VgCyAwlLBY8fZrg3pktHBtqA5LGw5XVifjRn9Ic_wPG19MM3ZdmfOtT7J2RnJ2busL4g"},{"s":"IL2BGtk0_ydM8rj490WRlQ","i":"HuNZm8B9oF12JBSp","c":"nPW7YAftMQ6HM4JiLYlaBraM7zGVn8lc6zG_qDHnIEgXnuVugWdAQJ_JBEd5ac3mmGPMLuwnfKhW9MgSjr-Vgg"},{"s":"rD4pTSCiQYQNgb7PV4o93A","i":"NBrNocX3djyrfEMT","c":"vqbMZWOdsPa7PIkT_aYbNpWp-Lf3vFaGJR9_4wDXezAYGbEhxOkzukAlRJeifibN92rZkBXTtXg3kSnShwejvQ"},{"s":"WBQoh1qNU9JNH_l6YaFyag","i":"1UIWRQg_WLly-vBL","c":"FpHNahMqc-zFpTniE1ch7eVtJKSg6Obz1_30XcfkTY-_vzbre6t74mH_7DKSgu-L76a1yRBIznmN_z6mdsbEhg"},{"s":"4FJVnahUUZyMaDMkJMJ6pg","i":"vGPXP87QOVR7gMfD","c":"JzGBCwrswIkS6nvW-j8Nwzyqg6G2trLjPbgodK_Fi_wRZWw6MDkARRobBkPuPB3KojQsKCPaQm4WcuCmDa0jEg"},{"s":"BQHk-3NfomOg1mVYy9VJww","i":"AiaeOxJUu2WXMSSV","c":"QF0mMdN9aazM6EnBlYxGvL9BOXkwY_V6vU5XZxamQlyHGBt3BDiAbR2vU8wqEMiUN8b1GxppLxZPkm71PrV5Sw"},{"s":"VQi9xLh5bX4bo5vCA3IiEQ","i":"WvB6p0NX2DaFpVRr","c":"R4iScG0-bLg96cn541HNwmPH5SSvOLE9RivnjJhLNCj-yIY9aCeKMXLPpvuAxWdFRnFpjycvrzBZN6HhmEHDbg"},{"s":"MXAfwBomGTnwFdOgUd2TTQ","i":"UJTxOgnXuevwbE-H","c":"RcD99gwvwfWpzl6M-tEgEPgQ3WAc0g56oFRLcVynFcpqy3cRoO5WazuOzZSeM7v3OETSMPLJgwnDbLO8frv0hg"},{"s":"CCZ_MvpXBedKCo76ok-lBg","i":"IOeyAuddYU6qD84D","c":"bv9hZzTklq3MzsG7EtnzI-OBIdnUDZEiHkrwwSe2KYEMgRPGZgcfMLirvAB1AlgfVXLwPyDHHkykf9C_QMOvOQ"},{"s":"iwFryjxOUnNqYTH0Ld51hg","i":"ixhpaZ3mDhSga-xU","c":"ZB0IHEXxkvmP5uYX822iWL5gw0sevs1qy_8BEJcVOcNq3zGYGJg9bJmxxOPxxD-XguuNkg7dxuR9Tk4VB13q8A"},{"s":"MnYEyD7XB-591dkNx6-7pw","i":"LkojcEMddiCsyIyy","c":"4WHUj7k7BBf8WG0Ybhi9ne6--q9q44hrt2zeKZXqOsoqeCSB4JExxJ9pOZ61E6riH1i3sUAe2_LIYlgl3JneMw"},{"s":"IIzJ15HRuDFMhu2wNRmrOw","i":"LFxHUEBWgoHDa1dY","c":"XU6UuboqJhDIPJYMtHYOtnYQqk5zCHMWyJnNL5NMtQabJNYxtax57vjhomefPSNhKVXl1JaaHflMBYuRaQ5MFg"},{"s":"H4S-ambLwdIs86lYl2tmjA","i":"duZocjZ7xqtzfHEf","c":"TOUZVOlzazqGElB9sLQ_RL6p_SPFzEcJrutuZrMEc8ZbqWvClFtrx3WpKw79R8uf0faxKc4O6m0IFjZ3imXvTg"},{"s":"UYxREOcF4dX75o8z7HSvrA","i":"_YFd_zXD0AuVCzqg","c":"mG5fYibvs26zRfiba5VAccsPugt3Yd4nYU0Huz0kUEha-Ak4H1qUYfIcx38kvcS_zEsuGG79FtIz8vx4GGoaKQ"},{"s":"DaXM5meb6Dy3Kr0gTAduNA","i":"R8_fisHkF7EhqPut","c":"Q96xDmRJ5j17qgXw_7GEN4ef05n6kAfZ1w6ikVTp0pIGPkA9nPlgayIBfAEx7x-QDioGzP8cJ5MTynSFInYs6A"},{"s":"-7hH57lvqRWQp5S-xLQBwA","i":"nIoyAGpfMNf2sZl7","c":"V1BkmK3OM649OiP6J_lMe5cbB8Uu458bfoacRur6x-6sMuTnohuEgSG-3yv0GkAdpR2fpR68ZZRiAW9VLXPUWg"},{"s":"_G_vKb4iq7rKQGSZ-RAXDQ","i":"0oBK13aBQj5kYwKT","c":"2T8o6zPJKyVzXJbVI_oyGApXOGoZjuCedlK9-uvSlf1maWQYOqtnEYDX5FTtAgLn8yZduDhL5rrQpkWhMEEI1g"},{"s":"KAw2L3q4qLhTxYcSlqiX7g","i":"zEfi4-mli6kDIp7D","c":"NkVCDmKbG13-TgzpyT8i0BED5YTuwpPN9rRJPGq8p_B6bNX1Lk_3wuXSdhX9afNubpfeZ-GaF4cCc6ss8NNzDQ"},{"s":"Gp_SSgjsnp5JcqU9-bRDGQ","i":"B04HEmEs2Yuju8cQ","c":"x_NvpsYLPIIcdxANV1owe6PsCkb8E23WlhsJH1Fd5dI3qR_Tq-YlnSTP8eKaOV7QnvKMxNRscwTZJyydlXEGVA"},{"s":"PQjtS4FtZ9WkqN1zVX7PnA","i":"tvL2XtXqa-SjvOp3","c":"z4Puva0ZmFo_PiUhszF9kBxFuYJkI3-H5GtmKvww6Ovs0tt1GAD_RSrNuxz-WBU38_uNOuND-ByrXsYbsBQpEw"},{"s":"GErjf9tNSBxHcmwcx5IDug","i":"jXDgNMivvoy57uwO","c":"I-GxIieBOHCxPyiDyV75xupjsdq_NAcokvpo3HL9rk4sE0K-8PIai51665O3A3GQUtl6wwwfsuyHTZttu6Qcaw"},{"s":"LCbsk_jVJ6jDauUWCLrYJA","i":"2JtceZPWEvrGElTn","c":"5DUwaqhipuxGtRfNYn6hBGKTJzyIQM15jRG0RThk7QLBvOFmLXPMJZLOEatYOIvnHJzfMmEDIuLMIPxTPuh7ng"},{"s":"OkSf4iSm0ZEOQjHULNPK4A","i":"QwVQsomMoK2R2BIE","c":"fYbOUgQSOUiq50vy7g861iG8m7FbMXKm5cVWLJrt8yJrKNFnJJ7gHvTx-ezAFCF-tJtrv0tsprqowD47p6heeA"},{"s":"htjBYOnhsQ1fqGbm64yDOg","i":"lUliA97g7ftzwxmo","c":"SULs4SQtqHU4BWHJNVuLqt3bc_7q-bMpHEkS3jdSJKu6tlkpjr96Oq9YPX8KP6K8LI7e4-nusECu8WQuXR4FYg"},{"s":"_f2A_ePrrxHFubep2Z7XcQ","i":"GpsBcsMlTD3SbBeq","c":"68mmrGevlLEpwF6PGU_r3aNOp_enptlf5YCEw2RKUzIm6xkKDjnCdNBCndmq0JNN3-I7bnD9FP9ypyHgf-gjSA"},{"s":"iL_71Tk4lqivc74-nlMI-w","i":"c5tOPDnCtliNhx7X","c":"RaKsrzrGaidB5RLKeBBTSQCvxtG999ayMCQ4ric5czgDbOR-9HOmRN_911iXYRPRGLTGUIDXCmxm9wrhGPK3RA"},{"s":"2xizGIOqtK49qZkBXcuOqg","i":"RZZUoBmuUPHXoCxC","c":"3BMUrYwoVus37wI6ysE1o8kMz64EpDzxfWpZ5J5UNylRwVa009sWEYRtsM_fZsBeEReU-lRUUd4NYLL5dXLzog"},{"s":"pRw3rsAOLg2xBt0ehn4H3Q","i":"KYuqjQ-qN25A8iuJ","c":"tGAL4if7HinRZaHGAPZM5NzGW4V-BtW2gR6IIES_ce4iMLt1q7dOgS7Rz99DxDlwrtHZyzy3X8Y05KkE9bjjfA"},{"s":"uTe0HNv1Pxvr07ICEAXCDg","i":"GlPG1EdeBSw-HuhS","c":"DUDtHwl0Eeqiv92Cp-8FgyxKwEoiUeuVOWC5Fxq6c5IGtbKfJ1jJ-A4G0Bo9A7_niPRa17AADPQ5n_lDOfWomA"},{"s":"y7QHcoO1KkEzC51j8vg2Ag","i":"YsDen7zaBCHIjZQl","c":"BlBX7sesffDd1rZVyjIHy4_Pp6xztbq5EWgYw3hu-sdXeOHjrKC9VB2jyTghexHsoHyK4wH4IrWWy4r2AzQD8w"},{"s":"ZbChPi6r4eTp-s_HFV7wFA","i":"qNMb5GAtu_iCdciL","c":"s80cb0Bn5hoUvvkq5fxh0KGPK7cwczmREzzaMJeMBFP-iCZz9vC354j2OKAQ3QRrBpIWb3lAExd9DksJSuYHgg"},{"s":"Z1MPGLaqvRczD4ovPDCzFw","i":"jd2dCpXVBc_KO1It","c":"b8erLVuXHF-CISuayBDjuHvmGF9bZ6qeWRtES1BCbrizubiWDDN3AQMYI7NXDSVJ4JvHYzp411vi2XccD0YsVg"},{"s":"3lX1N4kp2lCITsv3rukk2Q","i":"eXzvq5l4OfeDS9H4","c":"KJP3U9RoAFITKkB8qvv4AgXHNx_Ot1mLq_5Z7iTEtjITo1ljIDmmDUy_ENxdIrjjEPMsh25OzQstbXVMx1hIcw"},{"s":"w7npscqvPNG7OC1Qdh_6Dw","i":"yCehZ45LPiXqYU3_","c":"LXt9HqhqLJ1UPv2WnHM0QJzR2wDbm5OgpTyikjX3p0y5yJ1zyNN02EaDUob_70bkdwCvE5U7FGEpzR2rO9rg9A"},{"s":"-G5Pp2b9tsVngMN8-BxWRw","i":"oauZbKMR8u_-V_wH","c":"hufRCr37zvgzm58mJ_j4SzN4xR4wTsGw-zQxp7yyDcO_f653XP7N9aFQmNuWNtCG9YRu5iuuokWM4L5ouTyYTQ"},{"s":"V1Ts5TVsEeVQd3zDXqJpsg","i":"c6AiXGMP1EJ8e_Bj","c":"iK5WVg3N-UFQlCct8r3Ae30YUF3Du7HYLEm_8u67iM9EJE5cI9vXcAw24bwVQL4obZhvhmucyFNzQiD7S0khZw"},{"s":"8FU3ZPwZb_yYzSJ9nEToDA","i":"D0n9prqroyY0T53O","c":"JGgT7xkhnF85HdQ-L8B8BeA90gvvNb7h72oWTD4jo1swLNaZ0G9W9YDpLH0VvBmYWHX0phLEhLUZ8ZUEiXtHuA"},{"s":"C6LXw28PGtgsGJDOdx8BCA","i":"NxPnXxIX6vMD_0sg","c":"-Tn2HbA6wMdfXrlRqQEh4kpTNbWQNVDzJErtFNvO47KexeyoGm4-Q9XJHrlHfeOMjuAN6AD215pgql6LbW9EIQ"},{"s":"JC0hgGIYf_43T_UYUvtisA","i":"GnT9keohm3EcsTQU","c":"vupTmb0A99AnxK7QBsjGlRkHnJKING6LQ_6vH5HMtx4H9j0oEwQVSwV0bKi70wUpaV0eJsvStfMhRQPlyNLRXw"},{"s":"fjxgSnx6RsYWEYuiW2jYzw","i":"yOZCG-HLjWaC4Uu-","c":"eZdSlMUdQj7fWFtK_EPh8hRVJR50ouqewECbNcQhWfhHUXgWqufSGJQ4fus2V7p_hX14dO43NVYdmiNGoUS7Xg"},{"s":"NJog_BEqN16Nj12LVidsYg","i":"H_Mey4SgQJ8o4Io9","c":"xE7HCQiWLjFeLZIFLtWsjvzaXsgPmDUHT8g2BjoN0sHcNCsD-gmuIA-r5WE-WmkEXUBYZ-hIuBqXocIJmeOuqw"},{"s":"-x0crPIb67-ZFe04-JeVUg","i":"wA5HW_pU4Vsi_aRe","c":"I03gvIi7MPbI5bao2QLMo8ujidG8sUzZ_VefSTay6ZFk49uBVqvIwtUAc--2Sg4RobpMeAOi6N_Kx0asZ1-l6A"},{"s":"OW00Zq2A8MN6t0MzQ0aAFQ","i":"CaSwe7bEMrvM-IQJ","c":"Fq14StkugoDIOd3T8aythSMAaYvTqEknfXa3OKZb8QSNqohYQE8YvAbmJnTLIozDtUtELFtwAVmZ6NpYxm1-1g"},{"s":"Jj_Bc9GOKuazmQW5TfgFxw","i":"wGenpfAE00Io8Lfs","c":"BrrUM4rDah83iUaoxy52wm-3jO5XACSWqtMs95R_ua0FrbO-exqtigdhI-hCxiP1fSODrXV2IPOSyAGVuTiW6Q"},{"s":"hTXg8qenxUFbP7PufX477w","i":"O56TIrL1N-Hb6pVc","c":"gj9LsK6Yc6ZeOdCuNEPh-Cby5R6p67y4Bh2bWhKOxo72C2ShDVdli9MoeAXvUJKqW_uvUOuBhaV6dexUcujGCA"},{"s":"jl5WtRuk78ilxy1ASS5gYQ","i":"uzm794YLeav8ohCi","c":"meLY7CiXhvkIJbFQtOsYXUw_UnBbLiUJjd7l6jY_FHXesfHZZlN5tyzQFy90GqOI3ESgP98j4ZWSXR1B-VJ8fg"},{"s":"Ak-mc1-HAWgjLMzMI4YvAA","i":"qvAjVxKIY39w5q2Y","c":"Mco4NRyL2nur6vdl5Zgr7p2O5CccX2G3J5sRvishaw8atXyyiL5eQq1GZZpma0RUosECdjfTpWCiWX-6cMGn0Q"},{"s":"RHL0HbjSh3FsTsFaGzxwNA","i":"hskAf2WYOrqB0pnd","c":"E8w4bfS2lokorvlkgOm5dqELf7jWLv-3D8RTt9an8X9UAnWCrU67aI26Ckhtoxnt7wUHFGnbmCIaWC7W-10xOQ"},{"s":"uaoLYI0WJ1rUxFOvFYWH9Q","i":"YSpXuiG2ZO6202gP","c":"KBvcG5q4Z8kQhobe0kb2WukNp_0h-yX3lhZNafAnhVOm9QN5vZh8in4xQohX3b9ARgpE7aA1nmrBGkMzjZkWMw"},{"s":"aMKiZpOF4hmGSHLTMNyu1A","i":"ReijD52bXKqt1hpg","c":"d1Vc_OFxcGYyjIrQ-jW3xBFkxYkq_3SmD4NIoaVLTf8Y0lvc_Ynj2ZO-8L0XAQ1A0y5ZWnFvBDbjE2pee3I6rQ"},{"s":"6bMadNXV95qyOy54xcIMbw","i":"5gacyWNt8LPftZc-","c":"h2DBY4ZLdRhQh2OUIeQ9QJcAqekcViN2txHi1GqmuT1r4crZtqvrUToE5T3GoKwQ1dnOdpJDyIew0SRjTaVWJw"},{"s":"xGY3RqaDxig3ubw47adhJQ","i":"NBaMfKRaOZ-sJH2G","c":"5c3fenO4k9xqzPTYfbEsCWQDE06-S3ipGXBZQ8bvyPJo85HNsya-TvEkzKm3IBp9OEpXAxpkoJNu94V1aZAnZg"},{"s":"6S6xNoSrR3fnrQT19dEueQ","i":"vQ3KYsbzH6WkcAav","c":"nt0FPj0CC69dXzwu0V0zmpyGkRT7Jfh9C5oV4neEkq-RQ6dWPL2YuKDK3HkQ1CBzSwpM28chdajgO73jWbPCUg"},{"s":"kTMxxu_Lg7I06aYwMXBFkQ","i":"hD1ZEyhZvvslmklp","c":"ucgyHKScl73GAkomyE7mHiuMjxK22aYyvOCo-1Q5NIW446rZS-Z43noZduVawmPk6oQMNMpVJ-fefQF3mK0wYA"},{"s":"s32QeW2Ie2X03CiugqpBjw","i":"Fh6lg4JHSlKGDdx1","c":"qnKxt8FtUOmE6jTQvkHxG8OiVRCtP4zjrVHvXRnI3HUFAPMn-735-qSwvdAOQMGxcfWP4119AL-3AevlFoOLLQ"},{"s":"EvAlxm_al2A5SmdZRga2Gw","i":"oUqsU-LfgDGYj70G","c":"VUggqfcjIqXN-I9kupoveGUighqyffN7GC9bpHeJriXrvpQKXhvJ7deSpnHIJucpe4s0Du3UPqanTj1RAOTh9A"},{"s":"FXoZYx-n8wmhmRud-Z5qTg","i":"CEcXSyzzNP-h5zrq","c":"aesogK4RWYgWP5hjrcsH9vcK31WturjZOI5nnAj6oO_gHlT7Ru5wWQdpOX-4-tsmsFaAW24VQ4-LTSxPM2Li_Q"},{"s":"A-h80BtQ3lxIWngMm6sgAA","i":"j20IsmAA6Ctncbmv","c":"P1VS_MilDM44ND3K-PJ6izg_TGZQQfCP7AN7TNb8EDOijP2smBn9zU32gxBH_PjsYbtTFFXl3AskO3WjwD31Iw"},{"s":"xbrBBTCbVEqJKhbStGf-iw","i":"kPneo_JwMCAL0Tyv","c":"4-x8I3WXNtcmTisUFc9FCNmj4s2AO-HjrNhWsSPGa41H7j_yZwIC4RFIANZKCPOYK_qE06L0XNEhvQSmGEU0aQ"},{"s":"pe1_IZxPUemud_o4ca_vdA","i":"C5Z84qujbjQw_HJV","c":"fizbK18M3NK41896VLKSWudJWXObIDXLthWHnKb-fG_Eqp8U2Qrif9np2sOZRA8V_yvPLwlDeguZrfH6bxMUDg"},{"s":"VZ7DxaRKQ0gnPQ5BaWRMqg","i":"_LkCz36kesbwkkTV","c":"q0iNrfFYRR7JWsMWGMM9rOA2L_UYTtBDm1W07FN8hnQ5OrYd9b0r5lNRGXzmKu-GQlHYMJDPmIWPKyJ0gs6bhg"},{"s":"3rdf6SNiRFxi39s2R3JYrg","i":"ZDay4QmZd3RUGJTI","c":"Q2IucGqbJ7x1lVqg545vMo8EeMNn3h3qDpO5LIhj4aqKgq5F9WGwDE_eyeUXcE3G-GDy5NjYtFgUJSMxjgQo6w"},{"s":"W5nzPWUFAJNi36pdzj2HXg","i":"230Ztxw9tCDHlnqW","c":"WA0rHkcbf3KT7aTLEvjc727r34B4snkKqerCA8OH2MWT_wU-UX46BxbuK_MEQBdR8LUBkN8POZGvEcBF07ti0Q"},{"s":"eX-bCi8CmswJQc6GD0FPkg","i":"-PbS2na7WA-iwjUN","c":"sV9z3-CxTK50kcwD1DnMvHcX8cc-ZcWgYXFfw_5nMoFo1LuLfmSiyR0UCZOIJEX1i_trAQBNQqMtJ4qjoBkLfQ"},{"s":"uKNrMVOofHodcfcQnXRHtg","i":"A78UJ5bw7LNTzgK-","c":"RjijWS-_eOL_StHrEjVN4J8EkLt1b1hrD1ZVWIE8z96KrLGmFULZ8sdzg8wH3Rn5IQ1Rx1qyHJ7iOjtyhqtWVA"},{"s":"qbu_Ms2AOcJrwa-vv3kb1Q","i":"l0nueiBgBWcpMShK","c":"1HEJK2VUjTy8d_I9jQdMnG999xGUKxg5UhnGN5jYsFWXdqkWoRAyvvGY5MoDWTnvnpuIbSu8XWmJMq5W6Ax_RQ"},{"s":"vma0Jq6EUchE1w4LSeZE4w","i":"EQ6yY8jPDBWRnkxq","c":"MegU0yVYtU-wm3hLEyDcZYoUNDbsQF8UwTwHAxjKaGA72WciZsN4_l69WPJiuEXM9UNO7-r1XOTxUfgz92ktIA"},{"s":"x5ksqWcqH0k6SdOia3TTpQ","i":"Cd0hVJz5TqUnNIXO","c":"dH10sz4MxLLwtUSiDsTpZ_KpOv7QZCOYa5XeUgM3WfsSk0f7X1VZSrNKb1r33SVFlksG3S_xKKT5TWY1o_6JnA"},{"s":"issp5wJ7gm-sMjsxgr4LfQ","i":"zmvkQiZK92Q2EuDs","c":"khr0QkRcnndVVj997egKHrPqss6SZZMOwljcViTk6XloUk756bSc5ZN4D0D5jcDYMOBQ6d3BYj7NiC9wdni_xQ"},{"s":"dFPwSPu9dxs6k1bfIzxpIw","i":"pi4fEHSDlzvVCAUJ","c":"CppaQfCfq9U7rCm85tmAJY_jUfLbzHHVXwYhMTOcw5V0gj4HWyYCvxDID2vB3aaRmPq7iqek6BR22iLH447L8w"},{"s":"Cub65YfGFjPieD0lqT1WDQ","i":"kVWxVZoXQH8qNNuH","c":"mGbrB2g9ekezdzomtjJm0jWgfUz8FRQ3q7juNLOatlg0aKPajmOG4I4VdIP06-v_s1Y8RvZLq6kwG2KDdZBDtg"},{"s":"JvAua-c3Z1FwfL2CayYoAA","i":"isHCrYzousu3svKM","c":"81rUGdT64fFN3iCVlo4K9DuDAe4BHK1HZY1rqmrsVL9iv2PJgNxRWdhkcn9dUTy-wldOgv9qcMs-5ICiFyXm9w"},{"s":"hF-1Os6a4Vi-M98PkQz6AQ","i":"GQCa5x4b_UK0-6Yu","c":"xC_QqcJ08FwpyO9LkB2JrkN75tE_PI8P9dQCHDNOmhgfkYzyfvvhRmpsQqhqwCtxiwxTYUIw8F64Dlnsu6f2Pw"},{"s":"gq_RZykjEhZjJ6m30Ht0LA","i":"CtRVrR3XTjKmrCWp","c":"cWjCHL51zF4fhya4Ikj7-ITrW37wa3MiEZETdXjo1gAsgXKCB-MSuWLFKTcubaoSuvdax3CZV2p1Nh5UII9rOA"},{"s":"XJ8suRr2kz1hSNv-4AFiEw","i":"8rw6zNdlU-LBnAId","c":"CKpjJgHx65mHgKAD9RXxFRM5uv-IVukpoUiQmqrF0V1UemRZGJj7XbgXv8Uf7GqjBnjIfRmZGrR5XGbX7faPTg"},{"s":"B6WHLQVz_HRmz47fyT5YSw","i":"bpzT8ym_p_1B7avP","c":"092pITN2rNHgkmObDKUGSBNHjA3BYowxs4yb7lhyixI2-6JDfBFw7e02maq7KWJOMTStHW253UZabMAjCB6Wyw"},{"s":"UMwp6214lcVjkPJv7fjXXg","i":"HtYHtosBfysZu86l","c":"pZPn-Uic2Wb2F4fZXelH9bw1oInOmjp59Jrdus08lQLkGa3TG04qKEJ5RjuOYkpKlKDJXgKS56Osfs0VDoP-8g"},{"s":"NmdJFpEqjac06Y1GWdDWvg","i":"17N5oakFcHGr871D","c":"ahUoYOfb889COvyJsTBVBvMgJVwFsPtBbUGbpfQKalVc9VoEQFjg-J2TWZOX6Vab_AwCBIuEEgAWrniGzXKf2Q"},{"s":"6l4k--X2z1z3_mpkoT-PFQ","i":"GOOpZ5qRFLSL_C05","c":"oOqWr1FerRK3lxaBMbKa_EQ7hv3kNMwjCUF23DBeE8bWhGbZEZXaanuC5jMQc0YX-rNkGCYLQaw5I7hXTKrKMg"},{"s":"6P9ocKZAamgsV2zlZ6dS9w","i":"hXUID2h6BH9F2Suy","c":"LxbFegZLMyDEuS-UZ63LOrViH8dXdLwdGXQMegER5IVhS7xktwwivXysi5rEumb8OfNbVqp02_bhKk4bKaxcbg"},{"s":"WwBY00Ys_M_4rEidEWbBNg","i":"Q2NwRZgsJUV5zeIW","c":"o4sBVaa4ksWxvFczCgVkphmYikZOO3EHEMwFjADvDnLzitCfKxEtxNHiXXxiKRdi4IyYW19GAViJHY4qmCNkIg"},{"s":"aZ_hxi5Sq8jLGzGJKcj9oA","i":"MIbSIaFc5vtRhA2N","c":"F9WMasKFNXBHuKiYBmiGcPVnEta9WH5b4fKRQuwXfoT0CC_0DIZLIhqI3Zxp9FHMybmOfG4k9nyTNv0lgXWYZw"},{"s":"mYmUDbOzlxM8FD4LvhooLw","i":"aZ6X6J1wlLL59luh","c":"0gvWUwJLLpgwICC8qSfjw8fer2lao65RDpT-VMXbTIKU2KNsVTU24mqLjXWSQ5jBNjU9mF3CFfCTOfaLUfJF6w"},{"s":"91bJK9CeLDXcE6kaYx0_Qw","i":"4wVhZ5TX1J4cMTI2","c":"S6zxbIpt53hK51nKvQnkjLnRvOmXytUOogUPip1yD922udMWRZcroJMkEGIov8POsiZv3hJvv9fwfrKUNjPcEA"},{"s":"HcE3JEYy5zK0KiOHKBXpyg","i":"x-nf_uy0gY9hxQbL","c":"IVZLQjFgOwIIUgJ1QQHGA0GEIU2APUoofOyGxNevG60EvV1kzgOcvCWjKGtsGGV61j7nQBz6RUiJ2O-c9VgzCA"},{"s":"QK8Zg_prlGKSqmAFV4Vhpg","i":"XtpDAwjUFCr4y_NZ","c":"Qn2QbM3Yhs22waZ63f8VOv7RJcUVbpqfYLV4LV2aXUklbThJ-4cq_5yT_Q98xLbmeSWz3xajSa35N6Wp-KnbTg"},{"s":"ginAH3vwEjOC1V4RkhUKVA","i":"cEmdwTRYQbuzYvfe","c":"vJeqr77Fy6Lm7hTO49oJuDtE06fp4Q1C3j3D1zSuf6Iay7cBFkg-hWK6JoCF0rY1qegiR7BGkaoHTXwmDHavfQ"},{"s":"lbbtaBM_BaDUf6EMYK2mPg","i":"z06zPdyfNmXBa5a0","c":"rzXLKiHqwSxGKHMGz_rQi89CkB6MieMbLDTC0_JGeMLvYQESlZ1J4HFcKMrG-Ulyy9_yUk-Ymzq-y3AyeAdAeA"},{"s":"Wmn42U0xBWaLnLWfeCz8Gw","i":"GID49jDezvOW2Ksc","c":"awujA0kVy_iEeQ8z7l4kw7cvcxnWcImtGkd2ZPJqTWipdC2JwzjY_pSF2iPCjkhmxadmRKT9zcH0POjsLQ-99w"},{"s":"2j8BIGwfYqthDY7clSkAtg","i":"2ZKEvU4rhRfoJ3Ez","c":"lFneo9llSLgwFVfpM6vE0iN5-q8IWhwReNexB8mwD8bpfrO6VaouF4_BcfkTdPPOP-UKNXgpFRuVNbyHIfHBkA"},{"s":"8l2-kAQ2uiegWHb5zFjW2g","i":"qAqegK-uUVa2WlIF","c":"CiOEb2EkuEWZWWwe2Rks65N9AjuMT3TwQ2gXBSgjzzP8dIXMM7vUV1piNYwXz5GXa4fH-N6zRzbK5c3YuCO1fw"},{"s":"z3ObDeESxnMphAxYl35_VQ","i":"vY1d7wZ5fxvzOyMK","c":"PLES9OLuEUF7OS_9a0ZvVDqVDOmLV2ERZxFnl749-EdWw9IqlQllhPx3LUsgq5c70REhGbPKYDagMomv13HnYQ"},{"s":"0SWS8c4mo0BS4Z_GMwcqXg","i":"SrFHjHdzPCjdqbI1","c":"J5QZG4a_MdT8bvTyEUozoZ8J1eAFFfkLvKn1Snb_AhofQasRfnu35gIduKlbzDUNu4NiYP-c93SZ8Cx1LI_7UA"},{"s":"5a5oRcL8XfGYxFyTV8Yy4w","i":"IkD3KY9dF4xpdyS6","c":"wpPCgYKC64JqT2QWxQpykQcMVYRW9Q9kYdHxhtt4DPQiHYjXsgT5S-JPTxvfEWwlsmWJFu-It4MXeu3-vzG2bg"},{"s":"A1oArF_mNou_qf1zhpExZA","i":"v0gUQU-di65iJ3oX","c":"MCCGC6y1pzF-O7avwEkXJFScdOuJ426KCForgxfSWhDY2EkyBJHSIt2l9vIl-Q4C-Y_sVHkPi4TNIYeOeTtv1g"},{"s":"aE60VorhTPUS9ybBmCAyBA","i":"sqpIg70mbu_CdYw0","c":"TOQ5FR0VASxDp6RICaG71IIlelGW0JD2jYigI3nLMBiIwcSgeafo42RiJSHGNQ3H3J4mxOwEMCEfeKPOutLKLA"},{"s":"5Q19KXtQZCkhinG5VyKT9Q","i":"BXnQ2aPWRRnTshqN","c":"fP0dBPeSvulSBy2gKBEVKWQTVZD-fBLPt9USJUMcG09QczYM04SEuwrLCnflUFuY50LBJbX02yXlJKt92f9F0g"},{"s":"q2hTrzfcX2zBTksMHCEwPQ","i":"GoF3u8KXdSnxqGLh","c":"KyjxmXeAxZi-SZeaXF0f5p0Zjvvo6lY_beTaRUPma9sJujiC-iVaaXhyLMKT9bJNXu8AYMzqB8CPzYDjjGURDg"},{"s":"bk0l_Jx9TiVn6BnC1Dh9AQ","i":"KBmszHkZIb5DtpGs","c":"vKSHCGghejsXKGCdEIYfyXajP-E_bSLIOQlASjqZI5FtWNLZWRgD-9e5V9s-5Tj8s-NBfE_0TA87zE4GQyimsw"},{"s":"D1pjXXDOWnL_qSEIqfQkaQ","i":"6BTnnleJnbjGjvH1","c":"v6TmwyVphzODHem0LblcMcwDmnZKLegNBJsF7R6mg7a_MVSrSD1wK-9qCOtzKLimpyI-sQfU2QpRmz3zPyxdlw"},{"s":"c8s24ri6ETPaxHCFYrJa-Q","i":"5Y0s7rqckImpsZR8","c":"bYdKATQZUX6RlAgewtYgw-f0toMXCJgwbfh8lLFCut1ZWejF-637cSzVvpgXHx7w2_ADHpsfjKrk29kdlk1J8w"},{"s":"83sEHE74-rzZOUlO0eQHLQ","i":"WOKC8p6VGDnN3tbp","c":"IWKciDENFrFlQH0BFSwMvg7AOUMpOI88wfq5GbBLLEi2bW-twTl8p_c52bv7AvIj0R2_Cd89N8YhzH-ZJ82_rQ"},{"s":"Kcsj09omJl4sxx60uzHY5Q","i":"c8pNrxd1za58nkMC","c":"9QwLfS71manyn9-IE0YScCA_Wxz7l1f1RpLprB8_8YAJtg_xdwHSescPOGg5a23O1rUcAEog5P9h4D8h_2uhQA"},{"s":"YwsWgP_PggWdKglhSpu-VQ","i":"h5nUunddhrlFJspu","c":"2MQj-hvGFtwG51KTWrzma1wC0Yc2wGrMUvk7-A5nSkFv-XjNYf9eFKI9XGBxqxKrCSbAcNfshysNz4ubM0ilaQ"},{"s":"L3Xt5thVUINUDlkhX93HTA","i":"LqmjjbygKyl2XG_g","c":"RJYfSyqqFE1BicuNlulTV9Yx06bmjbrGBKdFZdfAhY1PPFlIS_AYKrtHnv55ksybs5ftSP6FzoiJdHPxh8ws5Q"},{"s":"OySrcqeldSQ4hKJjT1jYDA","i":"ziB2QZ_YJMCkzijT","c":"dDCbYbT-52hK8fIKXyFfXBq1KR9LRLn6RBPbWlfIdkBPZp5bzSbjYxYwyFProkts6XuHEio3phoGaKsktDmpVw"},{"s":"SaeaLT6dwj0x5eIfO5J5_A","i":"MkOKRDj5c4UCe4Ie","c":"7ZSYQG7uQ0PkrEYFpo2hhdaJgl9qC1OVa8xsyeTj4oDHqE18c1siXJefsfRUj1vhm6f9NNq0Zjz8FLGy_MSCtw"},{"s":"k9v1k9L-fDSaEnRMI_ajZA","i":"MImn1iK7LddYKwFX","c":"hnwVQ0wfuaDVJYw4x6XEDDgDA3U1C0XJNY10ELLbVqAFJIO268ib3hQJlnS2FYIJR5T2kdJrHolybkEjxX0wNQ"},{"s":"O_kcNwuUzcgz5MtGtuDGxA","i":"twY3BUrzs3UWCEWJ","c":"p-ueA5d2rO5pndVj4zSltwQUfghLMawTwRIbCE8SMVizsLSq3yqysE2Xghy52Lweyfr217iVNflkKTVPgYiJ4g"},{"s":"IjSpr3_lVZvq9H5Kx3Yk2w","i":"S-g32Yj6xOPZZaOV","c":"vE8YBLjTloA_MMN8uNkpXKrEuj6Asl2BUXOOx7S_mDzRf_N57yWDvLMcpcbsOoVQ1F4-rfoz27Qgd_VovmxA4A"},{"s":"gF1Pqe1x2ErWyfOHi6IvPQ","i":"br5bK_Xnk-cDmNrl","c":"88pwtbG93sVVR1AeFfZUXkEWQtD4KHm4AJLOYsLKRBn2vdVbX5WScZfQMuHlJTnQzJzNA6yf_c_uy8TkSscEMA"},{"s":"JoSwHE7Md59UnU5ncuuoeA","i":"Ze4ol1iN8j6IkMip","c":"Oznm4XvCBUWgbKIMVsKh5T30GOBGmrmvWYX2zFoDjEukd_93E54tAMCAzfSaz_jwrarxZxh4FfThbC3v7L4gKg"},{"s":"OyImaFEsvbEtjvZEEWI6PQ","i":"T8rgMeDRia293UEo","c":"kIlvRGfFgFFYZQjbr_CTkQVdkJyBxFNaMmEzbPrz4ka5U8ltEbxDa6aGh1XJsGv-4fNz7CKwwGsdZayAsmNJPA"},{"s":"ifaXrYZpkQ8aJcbrZwTQew","i":"nrgHeAcGbuiqqsjR","c":"eaotK69Ey8lDSXUqz4ghO5sZ7rBWN0sXv2WKGWhtz9aca1PismvSfwSuY7hjHqWgQS6R3hkDp7mWxhjLQS6htw"},{"s":"yCOtfV45HW3Xobg4yBS49g","i":"XVlsrpEz_p_l8vtA","c":"oHqAyd8m8PKLBWlH-VV1Em7CAlxBf_vO79MNjdBn73eDucm6oj2slP_8R7tN727vcA3Tt5qKlorQXNasBrVA0w"},{"s":"ulPm0Sef6snJUAcuGMCeGw","i":"0gXL7xarGKEt0JCf","c":"WmaQxV76_CIExa0fxs4oSmCYoMY0DKquS5A31Iw3q_ZBcsK_8tIcL-1UFHXHuaz8lec0fir9mSJo3Z0hN8vx8Q"},{"s":"qL0NlQoUoSWaXpz9PhwmQw","i":"XUgl7cj2Ft4sgPtu","c":"66zguuS0JvHmO3VKxRESrxDmVB0eqSN8nIiecX24Kh8NzacCEvMCdKrIOs-_DUFLxmLOYaCNx_BHuvNMd4xfig"},{"s":"C5-AFHRed8UgpXPuAu5Dkw","i":"B7bXxCqmYgLEOpCu","c":"pKaxFWIXMC1j0urwTysyuXA30uQUqqR5go6UhdMzAigCPLh0uwzvPTwt_Vo_SW3DYRbhFOocNejhnYJSii8xGQ"},{"s":"8CEt3sbt-D9yBabtaj-ZkQ","i":"ld8Sj-O42Zqg9d64","c":"_afupSleBYgWPzLX-9uY52VlmFICQW2nmI78POZC8Aa4tRZo1jnJN-gAkxVAZO5qZd4xEtfzqqMK9wr7-ky6NQ"},{"s":"YWTvhggqGh81-YDRzmozyw","i":"82chKShPqrPRKXag","c":"aZjFWXLdTCYA5Ll0qeEAfphdjusIYOb4S44YPqdjoemb6LwD8gQzGc-HGlfh_R1SViPf4pHIW2dZNuSrKlq2Mg"},{"s":"Q9a5c_q_g38ESD605PKYxw","i":"E6NmmrPnFzclZxQS","c":"jczrUwjrMjAiiK43IkK0vRoC7Kz08DJjYvegZbC19w3oXfSCr_2cwfd3NxxZ-KHVWBVyzEDtWFmGYx7bPyiOpA"},{"s":"54El7sTncCBXDSBEUZJNAw","i":"wykSndLXBp4Lm4P8","c":"u7wNZO7w9CAMI8RFrdPuEHyRGaYWuYAUYH1LtpWW7Fx86kGNaZrbbnPV4LiLOYMU1Mo63PJLGOpMtrx--9v34w"},{"s":"3gkXXgkrbAxHcjhWkxev_g","i":"lBhgIhVg7ZG6cOgF","c":"H6gbVbMqBVICrzuJHUzJ88_yXgd5PEl68Ol6KAh72cRLA2aljgTzAhmTH5IDE1Uct9qAmlc7Kmosy4THH2exKg"},{"s":"tYMklIRXoBOSK6AgP3lA_g","i":"hrSeD4Odz-B_VeIM","c":"uuFSkSURw8REm_lfINunhAvf2mzZjGyh1DiZJGOnF0fbxh2c1uEhXAz-W4SrsYMHCVk4IOb2dKMBO2j_-RULTw"},{"s":"i2LMeRycTNyMLrahK_2piQ","i":"GXLHPL5RjZczColg","c":"R25t08Fyb5E4t8q6Vk7z7IKi0Obtj_kzKwQ7Jwi4nGOc-oRD8S3o7j4d1f7odO8GBDLHyfECcmZZgxS5KRl2cA"},{"s":"p6E2FqlF0EJiIncRxa-9vA","i":"EvpC3-B6OzrhLF2n","c":"mNLG6a-KzNdy4J9iiKSKro8ncUIAQwVoYk_KZ2v4h-cfjWmqQe2OwtvEUs18rzX6H-k4Nktiwqkrv33VxqkT7w"},{"s":"X8Q2ZrkHruXlvMLPZBxstg","i":"MyJ85n6QM7ly8dpa","c":"XddrUEY7vlCvmwqyCw6Xxv32Pt943xJewdb0bQEtkYgZwbziQ3rP8726h_btki3lG7Ps3mwtQcB-eTSGbaWH-A"}]</script>
+<script>
+// 静态发卡用的加密与编码工具。
+//
+// 同一份源码有两个用途：
+//   1. 导出工具 import 它，在本地把下载链接加密；
+//   2. 导出工具把它的源码内联进生成的 HTML，让买家浏览器本地解密。
+// 所以这里只能用浏览器和 Node 都有的 API（WebCrypto / TextEncoder / atob / btoa），
+// 并且不能出现 export 以外的新语法，也不能用模板字符串。
+
+const KDF_ITERATIONS = 50000;
+const ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+function normalizeCode(raw) {
+  if (typeof raw !== 'string') return null;
+  let out = '';
+  const cleaned = raw.toUpperCase().replace(/[^0-9A-Z]/g, '');
+  for (let i = 0; i < cleaned.length; i++) {
+    const ch = cleaned[i];
+    const mapped = ch === 'O' ? '0' : (ch === 'I' || ch === 'L') ? '1' : ch;
+    if (ALPHABET.indexOf(mapped) < 0) return null;
+    out += mapped;
+  }
+  return out.length ? out : null;
+}
+
+function toB64u(bytes) {
+  let s = '';
+  for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function fromB64u(str) {
+  const s = atob(String(str).replace(/-/g, '+').replace(/_/g, '/'));
+  const out = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+  return out;
+}
+
+async function sha256Hex(input) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
+  const bytes = new Uint8Array(buf);
+  let out = '';
+  for (let i = 0; i < bytes.length; i++) out += bytes[i].toString(16).padStart(2, '0');
+  return out;
+}
+
+// 兑换码本身有 80 位随机熵，不需要靠迭代次数抗爆破；这里只是让每次派生都带上
+// 独立盐，避免同一链接在不同条目间出现相同密文。
+async function deriveKey(code, salt, usage) {
+  const base = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(code), 'PBKDF2', false, ['deriveKey'],
+  );
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations: KDF_ITERATIONS, hash: 'SHA-256' },
+    base,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    [usage],
+  );
+}
+
+async function encryptPayload(code, payload) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveKey(code, salt, 'encrypt');
+  const ct = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv }, key, new TextEncoder().encode(JSON.stringify(payload)),
+  );
+  return { s: toB64u(salt), i: toB64u(iv), c: toB64u(new Uint8Array(ct)) };
+}
+
+// 密码不对时 AES-GCM 的认证会失败并抛错，所以这一个函数同时承担
+// “码不存在”和“码不对”两种判断，返回 null。
+async function decryptPayload(code, blob) {
+  try {
+    const key = await deriveKey(code, fromB64u(blob.s), 'decrypt');
+    const pt = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv: fromB64u(blob.i) }, key, fromB64u(blob.c),
+    );
+    return JSON.parse(new TextDecoder().decode(pt));
+  } catch {
+    return null;
+  }
+}
+
+
+(async () => {
+  const BLOBS = JSON.parse(document.getElementById('data').textContent);
+  const f = document.getElementById('f');
+  const b = document.getElementById('b');
+  const m = document.getElementById('m');
+  const i = document.getElementById('code');
+
+  i.addEventListener('input', () => {
+    const v = i.value.toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 16);
+    i.value = v.replace(/(.{4})/g, '$1-').replace(/-$/, '');
+  });
+
+  // 逐个试解。码不对时 AES-GCM 认证失败，不会误判成别的码。
+  async function lookup(code) {
+    for (let k = 0; k < BLOBS.length; k++) {
+      const payload = await decryptPayload(code, BLOBS[k]);
+      if (payload) return payload;
+    }
+    return null;
+  }
+
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    b.disabled = true;
+    m.className = 'msg';
+    try {
+      const code = normalizeCode(i.value);
+      if (!code) {
+        m.className = 'msg bad show';
+        m.textContent = '请输入完整的兑换码。';
+        b.disabled = false;
+        return;
+      }
+      const payload = await lookup(code);
+      if (!payload) {
+        m.className = 'msg bad show';
+        m.textContent = '兑换码无效，请检查是否输入正确。';
+        b.disabled = false;
+        return;
+      }
+      if (payload.e && Date.now() > Date.parse(payload.e)) {
+        m.className = 'msg bad show';
+        m.textContent = '该链接已于 ' + payload.e + ' 过期。';
+        b.disabled = false;
+        return;
+      }
+      m.className = 'msg ok show';
+      m.textContent = '兑换成功，点击下方按钮下载。';
+      const a = document.createElement('a');
+      a.className = 'dl';
+      a.href = payload.u;
+      a.rel = 'noreferrer';
+      a.textContent = '开始下载';
+      m.appendChild(a);
+      i.disabled = true;
+      b.textContent = '已兑换';
+    } catch (err) {
+      m.className = 'msg bad show';
+      m.textContent = '处理失败，请刷新页面重试。';
+      b.disabled = false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
